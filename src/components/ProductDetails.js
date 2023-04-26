@@ -1,17 +1,16 @@
-import React, { useContext } from "react";
-
+import React from "react";
 import { Link, useParams } from "react-router-dom";
 
-//Context
-import { productContext } from "../context/ProductContextProvider";
+//reddux
+import { useSelector } from "react-redux";
 
 //styles
 import styles from "./ProductDetails.module.css";
 
 const ProductDetails = () => {
-  const products = useContext(productContext);
   const params = useParams();
   const id = params.id;
+  const products = useSelector((state) => state.productsState.products);
   const productData = products[id - 1];
 
   const { image, title, description, price, category } = productData;
@@ -27,7 +26,7 @@ const ProductDetails = () => {
           {category}
         </p>
         <div className={styles.buttonContainer}>
-          <span className={styles.price}>{price}</span>
+          <span className={styles.price}>$ {price}</span>
           <Link to="/products">Back to shop</Link>
         </div>
       </div>

@@ -1,13 +1,21 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 
-//context
-import { productContext } from "../context/ProductContextProvider";
+//redux
+import { fetchProducts } from "../redux/products/productAction";
 
 //component
 import ProductCard from "./shared/ProductCard";
+import { useEffect } from "react";
 
 const Store = () => {
-  const products = useContext(productContext);
+  const dispatch = useDispatch();
+  const productsState = useSelector((state) => state.productsState);
+  console.log(productsState);
+
+  useEffect(() => {
+    if (!productsState.products.length) dispatch(fetchProducts());
+  }, []);
   return (
     <div
       style={{
@@ -15,11 +23,18 @@ const Store = () => {
         flexWrap: "wrap",
         justifyContent: "center",
         gap: "20px",
+        marginTop: "150px",
       }}
     >
-      {products.map((product) => (
-        <ProductCard productData={product} key={product.id} />
-      ))}
+      {productsState.loading ? (
+        <h2>Loading...</h2>
+      ) : productsState.error ? (
+        <p>Something went wrong</p>
+      ) : (
+        productsState.products.map((product) => (
+          <ProductCard productData={product} key={product.id} />
+        ))
+      )}
     </div>
   );
 };

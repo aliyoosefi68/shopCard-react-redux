@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 
-//context
-import { cartContext } from "../../context/CardContextProvider";
+//redux
+import { useDispatch } from "react-redux";
 
 //function
 import { shortenTitle } from "../../helpers/functions";
@@ -14,11 +14,11 @@ import styles from "./Cart.module.css";
 
 const Cart = ({ data }) => {
   const { image, title, price, quantity } = data;
-  const { dispatch } = useContext(cartContext);
+  const dispatch = useDispatch();
 
   return (
     <div className={styles.container}>
-      <img src={image} className={styles.productImage} />
+      <img src={image} className={styles.productImage} alt="product" />
       <div className={styles.data}>
         <h3>{shortenTitle(title)}</h3>
         <p>${price}</p>
@@ -31,7 +31,7 @@ const Cart = ({ data }) => {
           <button
             onClick={() => dispatch({ type: "REMOVE_ITEM", payload: data })}
           >
-            <img src={trashIcon} style={{ width: "15px" }} />
+            <img src={trashIcon} style={{ width: "15px" }} alt="trash button" />
           </button>
         ) : (
           <button onClick={() => dispatch({ type: "DECREASE", payload: data })}>

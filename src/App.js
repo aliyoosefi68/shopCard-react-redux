@@ -1,6 +1,7 @@
-//context
-import ProductContextProvider from "./context/ProductContextProvider";
-import CardContextProvider from "./context/CardContextProvider";
+import { Provider } from "react-redux";
+
+//redux
+import store from "./redux/store";
 
 //components
 import Store from "./components/Store";
@@ -15,17 +16,15 @@ import "./App.css";
 function App() {
   return (
     <>
-      <ProductContextProvider>
-        <CardContextProvider>
-          <NavigationBar />
-          <Routes>
-            <Route path="/products/:id" element={<ProductDetails />} />
-            <Route path="/products" element={<Store />} />
-            <Route path="/cart" element={<ShopCard />} />
-            <Route path="/*" element={<Navigate to="/products" />} />
-          </Routes>
-        </CardContextProvider>
-      </ProductContextProvider>
+      <Provider store={store}>
+        <NavigationBar />
+        <Routes>
+          <Route path="/products/:id" element={<ProductDetails />} />
+          <Route path="/products" element={<Store />} />
+          <Route path="/cart" element={<ShopCard />} />
+          <Route path="/*" element={<Navigate to="/products" />} />
+        </Routes>
+      </Provider>
     </>
   );
 }

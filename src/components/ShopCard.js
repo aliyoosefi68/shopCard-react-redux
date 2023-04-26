@@ -1,32 +1,33 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 //component
 import Cart from "./shared/Cart";
 
-//context
-import { cartContext } from "../context/CardContextProvider";
+//redux
+import { useSelector, useDispatch } from "react-redux";
 
 //styles
 import styles from "./ShopCart.module.css";
 
 const ShopCard = () => {
-  const { state, dispatch } = useContext(cartContext);
+  const state1 = useSelector((state) => state.cartState);
+  const dispatch = useDispatch();
   return (
     <div className={styles.container}>
       <div className={styles.cartContainer}>
-        {state.selectedItems.map((item) => (
+        {state1.selectedItems.map((item) => (
           <Cart key={item.id} data={item} />
         ))}
       </div>
 
-      {state.itemsCounter > 0 && (
+      {state1.itemsCounter > 0 && (
         <div className={styles.payment}>
           <p>
-            <span>totla items : </span> {state.itemsCounter}
+            <span>totla items : </span> {state1.itemsCounter}
           </p>
           <p>
-            <span>totla Payment : </span> ${state.total}
+            <span>totla Payment : </span> ${state1.total}
           </p>
           <div className={styles.buttonContainer}>
             <button
@@ -44,7 +45,7 @@ const ShopCard = () => {
           </div>
         </div>
       )}
-      {state.checkout && (
+      {state1.checkout && (
         <div>
           <h3>Ckeck out is successfully</h3>
 
@@ -52,7 +53,7 @@ const ShopCard = () => {
         </div>
       )}
 
-      {!state.checkout && state.itemsCounter === 0 && (
+      {!state1.checkout && state1.itemsCounter === 0 && (
         <div>
           <h3>Cart is empty</h3>
           <p>Want to buy?</p>
